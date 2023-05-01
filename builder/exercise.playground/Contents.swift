@@ -42,7 +42,7 @@ class CodeBuilder : CustomStringConvertible {
         root.name = rootName
     }
 
-    func addField(_ name: String, _ type: String) -> CodeBuilder {
+    func addField(called name: String, ofType type: String) -> CodeBuilder {
         let v = Variable(name: name, type: type)
         root.variables.append(v)
         return self
@@ -69,7 +69,7 @@ class CodeBuilder : CustomStringConvertible {
 }
 
 func main() {
-    var cb = CodeBuilder("Person").addField("name", "String").addField("age", "Int")
+    var cb = CodeBuilder("Person").addField(called: "name", ofType: "String").addField(called: "age", ofType: "Int")
     print(cb.description)
 }
 
