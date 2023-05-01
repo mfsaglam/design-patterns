@@ -18,7 +18,7 @@ class HtmlElement: CustomStringConvertible {
         var result = ""
         
         let i = String(repeating: " ", count: indent)
-        result += "(\(i)<\(name)>\n"
+        result += "\(i)<\(name)>\n"
         
         if !text.isEmpty {
             result += String(repeating: " ", count: indent+1)
@@ -74,6 +74,12 @@ func main() {
     }
     result.append("</ul>")
     print(result)
+    
+    let builder = HtmlBuilder(rootName: "ul")
+    builder.addChild(name: "li", text: "hello")
+    builder.addChild(name: "li", text: "world")
+    
+    print(builder)
 }
 
 main()
