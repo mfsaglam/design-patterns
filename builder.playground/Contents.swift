@@ -53,6 +53,12 @@ class HtmlBuilder: CustomStringConvertible {
         root.elements.append(e)
     }
     
+    func addChildFluent(name: String, text: String) -> HtmlBuilder {
+        let e = HtmlElement(name: name, text: text)
+        root.elements.append(e)
+        return self
+    }
+    
     var description: String {
         root.description
     }
@@ -76,8 +82,8 @@ func main() {
     print(result)
     
     let builder = HtmlBuilder(rootName: "ul")
-    builder.addChild(name: "li", text: "hello")
-    builder.addChild(name: "li", text: "world")
+    builder.addChildFluent(name: "li", text: "hello")
+        .addChild(name: "li", text: "world")
     
     print(builder)
 }
