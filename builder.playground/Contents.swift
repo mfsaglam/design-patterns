@@ -1,3 +1,9 @@
-import Cocoa
+import Foundation
 
-var greeting = "Hello, playground"
+func main() {
+    let hello = "hello"
+    var result = "<p>\(hello)</p>"
+    print(result)
+}
+
+main()
