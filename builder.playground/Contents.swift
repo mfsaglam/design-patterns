@@ -39,6 +39,29 @@ class HtmlElement: CustomStringConvertible {
     }
 }
 
+class HtmlBuilder: CustomStringConvertible {
+    private let rootName: String
+    var root = HtmlElement()
+    
+    init(rootName: String) {
+        self.rootName = rootName
+        root.name = rootName
+    }
+    
+    func addChild(name: String, text: String) {
+        let e = HtmlElement(name: name, text: text)
+        root.elements.append(e)
+    }
+    
+    var description: String {
+        root.description
+    }
+    
+    func clear() {
+        root = HtmlElement(name: rootName, text: "")
+    }
+}
+
 func main() {
     let hello = "hello"
     var result = "<p>\(hello)</p>"
