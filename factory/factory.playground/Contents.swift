@@ -17,19 +17,21 @@ class Point: CustomStringConvertible {
         return "x = \(x), y = \(y)"
     }
     
+    static let factory = PointFactory()
+    
     class PointFactory {
-        static func createCartesian(x: Double, y: Double) -> Point {
+        func createCartesian(x: Double, y: Double) -> Point {
             return Point(x: x, y: y)
         }
         
-        static func createPolar(rho: Double, theta: Double) -> Point {
+        func createPolar(rho: Double, theta: Double) -> Point {
             return Point(rho: rho, theta: theta)
         }
     }
 }
 
 func main() {
-    let p = Point.PointFactory.createPolar(rho: 1, theta: 2)
+    let p = Point.factory.createPolar(rho: 1, theta: 2)
     print(p)
 }
 
