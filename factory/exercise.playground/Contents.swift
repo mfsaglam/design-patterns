@@ -1,5 +1,4 @@
 import Foundation
-import XCTest
 
 class Person {
   var id: Int
@@ -27,7 +26,7 @@ func main() {
     let person2 = factory.createPerson(name: "Bob")
 
     print(person1.id)
-    print(person2.id) 
+    print(person2.id)
 }
 
 main()
