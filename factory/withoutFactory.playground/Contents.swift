@@ -3,12 +3,12 @@ import Foundation
 class Point: CustomStringConvertible {
     var x, y: Double
     
-    init(x: Double, y: Double) {
+    private init(x: Double, y: Double) {
         self.x = x
         self.y = y
     }
     
-    init(rho: Double, theta: Double) {
+    private init(rho: Double, theta: Double) {
         x = rho * cos(theta)
         y = rho * sin(theta)
     }
