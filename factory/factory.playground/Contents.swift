@@ -17,9 +17,14 @@ class Point: CustomStringConvertible {
         return "x = \(x), y = \(y)"
     }
     
-    static let factory = PointFactory()
+    static let factory = PointFactory.instance
     
     class PointFactory {
+        
+        private init() { }
+        
+        static let instance = PointFactory()
+        
         func createCartesian(x: Double, y: Double) -> Point {
             return Point(x: x, y: y)
         }
