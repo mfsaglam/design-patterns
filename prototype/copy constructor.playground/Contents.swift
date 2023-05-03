@@ -1,6 +1,16 @@
 import Foundation
 
-struct Adress: CustomStringConvertible {
+protocol Copying {
+    init(copyFrom other: Self)
+}
+
+class Adress: CustomStringConvertible, Copying {
+    
+    required init(copyFrom other: Adress) {
+        streetAddress = other.streetAddress
+        city = other.city
+    }
+    
     var streetAddress: String
     var city: String
     
@@ -14,7 +24,13 @@ struct Adress: CustomStringConvertible {
     }
 }
 
-struct Employee: CustomStringConvertible {
+class Employee: CustomStringConvertible, Copying {
+    
+    required init(copyFrom other: Employee) {
+        name = other.name
+        address = Adress(copyFrom: other.address)
+    }
+    
     var name: String
     var address: Adress
     
@@ -30,9 +46,11 @@ struct Employee: CustomStringConvertible {
 
 func main() {
     var john = Employee("John", Adress(streetAddress: "123 London Road", city: "London"))
-    var chris = john
+    var chris = Employee(copyFrom: john)
     chris.name = "Chris"
     chris.address.streetAddress = "124 London Road"
+    
+    
     print(john)
     print(chris)
 }
