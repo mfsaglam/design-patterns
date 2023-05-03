@@ -1,10 +1,19 @@
 import Foundation
 
 protocol Copying {
-    init(copyFrom other: Self)
+//    init(copyFrom other: Self)
+    func clone() -> Self
 }
 
 class Adress: CustomStringConvertible, Copying {
+    
+    func clone() -> Self {
+        return cloneImpl()
+    }
+    
+    private func cloneImpl<T>() -> T {
+        return Adress(streetAddress: streetAddress, city: city) as! T
+    }
     
     required init(copyFrom other: Adress) {
         streetAddress = other.streetAddress
@@ -24,12 +33,17 @@ class Adress: CustomStringConvertible, Copying {
     }
 }
 
-class Employee: CustomStringConvertible, Copying {
+struct Employee: CustomStringConvertible, Copying {
     
-    required init(copyFrom other: Employee) {
-        name = other.name
-        address = Adress(copyFrom: other.address)
+    func clone() -> Employee {
+        return Employee(name, address.clone())
     }
+    
+    
+//    required init(copyFrom other: Employee) {
+//        name = other.name
+//        address = Adress(copyFrom: other.address)
+//    }
     
     var name: String
     var address: Adress
@@ -46,7 +60,7 @@ class Employee: CustomStringConvertible, Copying {
 
 func main() {
     var john = Employee("John", Adress(streetAddress: "123 London Road", city: "London"))
-    var chris = Employee(copyFrom: john)
+    var chris = john.clone()
     chris.name = "Chris"
     chris.address.streetAddress = "124 London Road"
     
