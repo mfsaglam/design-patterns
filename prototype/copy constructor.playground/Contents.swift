@@ -1,6 +1,6 @@
 import Foundation
 
-class Adress: CustomStringConvertible {
+struct Adress: CustomStringConvertible {
     var streetAddress: String
     var city: String
     
@@ -14,7 +14,7 @@ class Adress: CustomStringConvertible {
     }
 }
 
-class Employee: CustomStringConvertible {
+struct Employee: CustomStringConvertible {
     var name: String
     var address: Adress
     
@@ -34,7 +34,7 @@ func main() {
     chris.name = "Chris"
     chris.address.streetAddress = "124 London Road"
     print(john)
-    print(john)
+    print(chris)
 }
 
 main()
