@@ -30,6 +30,9 @@ class Employee: CustomStringConvertible {
 
 func main() {
     var john = Employee("John", Adress(streetAddress: "123 London Road", city: "London"))
+    var chris = john
+    chris.name = "Chris"
+    print(john)
     print(john)
 }
 
