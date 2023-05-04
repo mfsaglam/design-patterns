@@ -1,6 +1,5 @@
 import Foundation
 import XCTest
-import PlaygroundSupport
 
 class SingletonDatabase {
     var capitals = [String: Int]()
