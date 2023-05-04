@@ -1,4 +1,6 @@
 import Foundation
+import XCTest
+import PlaygroundSupport
 
 class SingletonDatabase {
     var capitals = [String: Int]()
@@ -28,7 +30,32 @@ class SingletonDatabase {
     }
 }
 
+class SingletonRecordFinder {
+    func totalPopulation(_ names: [String]) -> Int {
+        var result = 0
+        for name in names {
+            result += SingletonDatabase.instance.getPopulation(name)
+        }
+        return result
+    }
+}
+
 func main() {
+    let tests = SingletonTests()
+    tests.test_singletonPopulationTest()
+}
+
+class SingletonTests: XCTestCase {
+    
+    func test_singletonPopulationTest() {
+        let rf = SingletonRecordFinder()
+        let names = ["Delhi", "Mexico City"]
+        let tp = rf.totalPopulation(names)
+        XCTAssertEqual(143_000_000 + 174_000_000, tp, "population size must match")
+    }
+}
+
+func main_old() {
     let db = SingletonDatabase.instance
     var city = "Tokyo"
     print("\(city) has popualation of \(db.getPopulation(city))")
