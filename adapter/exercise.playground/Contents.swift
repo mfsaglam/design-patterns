@@ -31,11 +31,11 @@ class SquareToRectangleAdapter: Rectangle {
 
 func main() {
     let square = Square(side: 5)
-    let adapter = SquareToRectangleAdapter(square)
+    let rectangle = SquareToRectangleAdapter(square)
 
-    print(adapter.width)
-    print(adapter.height)
-    print(adapter.area)
+    print(rectangle.width)
+    print(rectangle.height)
+    print(rectangle.area)
 }
 
 main()
