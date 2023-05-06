@@ -1,6 +1,6 @@
 import Foundation
 
-class Point: CustomStringConvertible {
+class Point: CustomStringConvertible, Hashable {
     var x, y: Int
     
     init(_ x: Int, _ y: Int) {
@@ -11,15 +11,45 @@ class Point: CustomStringConvertible {
     var description: String {
         "(\(x), \(y)"
     }
+    
+    var hashValue: Int {
+        (x*397) ^ y
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(x)
+        hasher.combine(y)
+    }
+    
+    static func == (lhs: Point, rhs: Point) -> Bool {
+        lhs.x == rhs.x && lhs.y == rhs.y
+    }
 }
 
-class Line {
+class Line: CustomStringConvertible, Hashable {
     var start: Point
     var end: Point
     
     init(_ start: Point, _ end: Point) {
         self.start = start
         self.end = end
+    }
+    
+    var description: String {
+        "Line from \(start) to \(end)"
+    }
+    
+    var hashValue: Int {
+        (start.hashValue * 397) ^ end.hashValue
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(start)
+        hasher.combine(end)
+    }
+    
+    static func == (lhs: Line, rhs: Line) -> Bool {
+        lhs.start == rhs.start && lhs.end == rhs.end
     }
 }
 
@@ -43,9 +73,17 @@ class VectorRectangle: VectorObject {
 
 class LineToPointAdapter: Sequence {
     private static var count = 0
-    var points = [Point]()
     
+    var hash: Int
+    
+    //hash of line -> Int
+    static var cache = [Int: [Point]]()
+        
     init(_ line: Line) {
+        hash = line.hashValue
+        
+        if type(of: self).cache[hash] != nil { return }
+        
         type(of: self).count += 1
         print(
             "\(type(of: self).count): Generating points for line",
@@ -60,6 +98,8 @@ class LineToPointAdapter: Sequence {
         let dx = right - left
         let dy = line.end.y - line.start.y
         
+        var points = [Point]()
+        
         if dx == 0 {
             for y in top...bottom {
                 points.append(Point(left, y))
@@ -69,10 +109,12 @@ class LineToPointAdapter: Sequence {
                 points.append(Point(x, top))
             }
         }
+        
+        type(of: self).cache[hash] = points
     }
     
     func makeIterator() -> IndexingIterator<Array<Point>> {
-        return IndexingIterator(_elements: points)
+        return IndexingIterator(_elements: type(of: self).cache[hash]!)
     }
 }
 
