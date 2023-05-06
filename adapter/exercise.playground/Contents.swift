@@ -19,9 +19,23 @@ extension Rectangle {
     }
 }
 
-class SquareToRectangleAdapter : Rectangle {
+class SquareToRectangleAdapter: Rectangle {
+    var width: Int
+    var height: Int
+    
     init(_ square: Square) {
-        // todo
+        self.width = square.side
+        self.height = square.side
     }
-    // todo
 }
+
+func main() {
+    let square = Square(side: 5)
+    let adapter = SquareToRectangleAdapter(square)
+
+    print(adapter.width)
+    print(adapter.height)
+    print(adapter.area)
+}
+
+main()
