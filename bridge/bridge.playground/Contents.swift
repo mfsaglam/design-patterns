@@ -42,7 +42,7 @@ class Circle: Shape {
 func main() {
     let raster = RasterRenderer()
     let vector = VectorRenderer()
-    let circle = Circle(vector, 5)
+    let circle = Circle(raster, 5)
     circle.draw()
     circle.resize(2)
     circle.draw()
