@@ -37,7 +37,6 @@ func main() {
     manyValues.add(2)
     manyValues.add(3)
     let s = [AnySequence(singleValue), AnySequence(manyValues)]
-            .flatMap { $0 } // flatten the sequence of sequences into a single sequence
             .sum()
     print(s)
 }
