@@ -1,11 +1,16 @@
 import Foundation
 
 protocol Shape: CustomStringConvertible {
+    init()
     var description: String { get }
 }
 
 class Circle: Shape {
     private var radius: Float = 0
+    
+    required init() {
+        
+    }
     
     init(_ radius: Float) {
         self.radius = radius
@@ -23,6 +28,10 @@ class Circle: Shape {
 class Square: Shape {
     private var side: Float = 0
     
+    required init() {
+        
+    }
+    
     init(_ side: Float) {
         self.side = side
     }
@@ -36,12 +45,13 @@ class Square: Shape {
     }
 }
 
-class ColoredShape: Shape {
-    var shape: Shape
-    var color: String
+class ColoredShape<T>: Shape where T: Shape {
+    private var color: String = "black"
+    private var shape: T = T()
     
-    init(_ shape: Shape, _ color: String) {
-        self.shape = shape
+    required init() { }
+    
+    init(_ color: String) {
         self.color = color
     }
     
@@ -50,12 +60,13 @@ class ColoredShape: Shape {
     }
 }
 
-class TransparentShape: Shape {
-    var shape: Shape
-    var transparency: Float
+class TransparentShape<T>: Shape where T: Shape {
+    private var shape: T = T()
+    private var transparency: Float = 1
     
-    init(_ shape: Shape, _ transparency: Float) {
-        self.shape = shape
+    required init() { }
+    
+    init(_ transparency: Float) {
         self.transparency = transparency
     }
     
@@ -67,14 +78,11 @@ class TransparentShape: Shape {
 
 
 func main() {
-    let square = Square(1.23)
-    print(square)
+    let blueCircle = ColoredShape<Circle>("blue")
+    print(blueCircle)
     
-    let redSquare = ColoredShape(square, "red")
-    print (redSquare)
-    
-    let redHalfTransparentSquare = TransparentShape(redSquare, 0.5)
-    print(redHalfTransparentSquare)
+    let blackHalfSquare = TransparentShape<ColoredShape<Square>>(0.5)
+    print(blackHalfSquare)
 }
 
 main()
