@@ -1,7 +1,7 @@
 import Foundation
 
 class Memento {
-    let balance: Int // immutable
+    let balance: Int
     init(_ balance: Int) {
         self.balance = balance
     }
@@ -9,40 +9,67 @@ class Memento {
 
 class BankAccount : CustomStringConvertible {
     private var balance: Int
+    private var changes = [Memento]()
+    private var current = 0
     
     init(_ balance: Int) {
         self.balance = balance
+        changes.append(Memento(balance))
     }
     
     func deposit(_ amount: Int) -> Memento {
         balance += amount
-        return Memento(balance)
+        let m = Memento(balance)
+        changes.append(m)
+        current += 1
+        return m
     }
     
-    func restore(_ m: Memento) {
-        balance = m.balance
+    func restore(_ m: Memento?) {
+        if let mm = m {
+            balance = mm.balance
+            changes.append(mm)
+            current = changes.count - 1
+        }
     }
     
-    public var description: String {
+    func undo() -> Memento? {
+        if current > 0 {
+            current -= 1
+            let m = changes[current]
+            balance = m.balance
+            return m
+        }
+        return nil
+    }
+    
+    func redo() -> Memento? {
+        if (current+1) < changes.count {
+            current += 1
+            let m = changes[current]
+            balance = m.balance
+            return m
+        }
+        return nil
+    }
+    
+    public var description : String {
         return "Balance = \(balance)"
     }
 }
 
 func main() {
     var ba = BankAccount(100)
-    let m1 = ba.deposit(50) // 150
-    let m2 = ba.deposit(25) // 175
+    ba.deposit(50)
+    ba.deposit(25)
     print(ba)
     
-    // restore to m1
-    ba.restore(m1)
-    print(ba)
-    
-    // restore to m1
-    ba.restore(m2)
-    print(ba)
-    
-    // there is no memento for the initial state
+    ba.undo()
+    print("Undo 1: \(ba)")
+    ba.undo()
+    print("Undo 2: \(ba)")
+    ba.redo()
+    print("Redo 2: \(ba)")
 }
 
 main()
